@@ -2,8 +2,8 @@ package deronzier.remi.cardgame.games;
 
 import java.util.List;
 
-import deronzier.remi.cardgame.model.Player;
+import deronzier.remi.cardgame.model.IPlayer;
 
 public interface GameEvaluator {
-	public Player evaluateWinner(List<Player> players);
+	public IPlayer evaluateWinner(List<IPlayer> players);
 }

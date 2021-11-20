@@ -2,17 +2,17 @@ package deronzier.remi.cardgame.games;
 
 import java.util.List;
 
-import deronzier.remi.cardgame.model.Player;
+import deronzier.remi.cardgame.model.IPlayer;
 import deronzier.remi.cardgame.model.PlayingCard;
 
 public class LowCardGameEvaluator implements GameEvaluator {
 	@Override
-	public Player evaluateWinner(List<Player> players) {
-		Player bestPlayer = null;
+	public IPlayer evaluateWinner(List<IPlayer> players) {
+		IPlayer bestPlayer = null;
 		int bestRank = -1;
 		int bestSuit = -1;
 
-		for (Player player : players) {
+		for (IPlayer player : players) {
 			boolean newBestPlayer = false;
 
 			if (bestPlayer == null) {

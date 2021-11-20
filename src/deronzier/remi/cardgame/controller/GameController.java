@@ -5,8 +5,10 @@ import java.util.List;
 
 import deronzier.remi.cardgame.games.GameEvaluator;
 import deronzier.remi.cardgame.model.Deck;
+import deronzier.remi.cardgame.model.IPlayer;
 import deronzier.remi.cardgame.model.Player;
 import deronzier.remi.cardgame.model.PlayingCard;
+import deronzier.remi.cardgame.model.WinningPlayer;
 import deronzier.remi.cardgame.view.GameViewable;
 
 public class GameController {
@@ -16,8 +18,8 @@ public class GameController {
 	}
 
 	private Deck deck;
-	private List<Player> players;
-	private Player winner;
+	private List<IPlayer> players;
+	private IPlayer winner;
 	private GameViewable view;
 
 	private GameState gameState;
@@ -27,7 +29,7 @@ public class GameController {
 		super();
 		this.view = view;
 		this.deck = deck;
-		this.players = new ArrayList<Player>();
+		this.players = new ArrayList<IPlayer>();
 		this.gameState = GameState.AddingPlayers;
 		view.setController(this);
 		this.evaluator = evaluator;
@@ -61,7 +63,7 @@ public class GameController {
 		if (gameState != GameState.CardsDealt) {
 			deck.shuffle();
 			int playerIndex = 1;
-			for (Player player : players) {
+			for (IPlayer player : players) {
 				player.addCardToHand(deck.returnTopCard());
 				view.showFaceDownCardForPlayer(playerIndex++, player.getName());
 			}
@@ -72,7 +74,7 @@ public class GameController {
 
 	public void flipCards() {
 		int playerIndex = 1;
-		for (Player player : players) {
+		for (IPlayer player : players) {
 			PlayingCard pc = player.getCard(0);
 			pc.flip();
 			view.showCardForPlayer(playerIndex++, player.getName(), pc.getRank().toString(), pc.getSuit().toString());
@@ -85,7 +87,7 @@ public class GameController {
 	}
 
 	void evaluateWinner() {
-		winner = evaluator.evaluateWinner(players);
+		winner = new WinningPlayer(evaluator.evaluateWinner(players));
 	}
 
 	private void displayWinner() {
@@ -93,7 +95,7 @@ public class GameController {
 	}
 
 	private void rebuidDeck() {
-		for (Player player : players) {
+		for (IPlayer player : players) {
 			deck.returnCardToDeck(player.removeCard());
 		}
 	}
